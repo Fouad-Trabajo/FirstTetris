@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    public static final int WIDTH = 600;
+    public static final int WIDTH = 1000;
     public static final int HEIGHT = 650;
     public static final int FPS = 60;
     Thread gameThread; // Hilos...
