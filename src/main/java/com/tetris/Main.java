@@ -11,12 +11,17 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setVisible(true);
-        window.setLocationRelativeTo(null);
 
-        //Add class GamePanel to the window
+
+        // Add class GamePanel to the window
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.pack(); // The size of the GamePanel becomes the size of the window
+        gamePanel.launchGame();
+
+        // Center the window in the middle
+        window.setLocationRelativeTo(null);
+
 
     }
 }

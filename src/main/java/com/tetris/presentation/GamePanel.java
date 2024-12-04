@@ -1,5 +1,9 @@
 package com.tetris.presentation;
 
+import com.tetris.domain.MovePieceKeyboardUseCase;
+import com.tetris.domain.models.Block;
+import com.tetris.domain.models.Piece;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,18 +21,24 @@ public class GamePanel extends JPanel implements Runnable {
         //Panel Settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
-        this.setLayout(null);
+
         playArea = new PlayArea();
+        this.setFocusable(true);
+        // Implement KeyListener
+
+        this.addKeyListener(new MovePieceKeyboardUseCase());
+
+
     }
 
     public void launchGame() {
+        this.requestFocusInWindow();
         gameThread = new Thread(this);
         gameThread.start();
     }
 
     @Override
     public void run() {
-
         // Game loop
         double drawInterval = (double) 1000000000 / FPS;
         double delta = 0;
