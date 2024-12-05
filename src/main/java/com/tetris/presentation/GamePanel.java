@@ -5,6 +5,8 @@ import com.tetris.domain.models.Block;
 import com.tetris.domain.models.Piece;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTreeUI;
+
 import java.awt.*;
 
 
@@ -21,12 +23,13 @@ public class GamePanel extends JPanel implements Runnable {
         //Panel Settings
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
+        this.setLayout(null);
 
         playArea = new PlayArea();
-        this.setFocusable(true);
         // Implement KeyListener
 
         this.addKeyListener(new MovePieceKeyboardUseCase());
+        this.setFocusable(true);
 
 
     }
@@ -59,7 +62,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        playArea.update();
+        if(!MovePieceKeyboardUseCase.pausePressed) {
+            playArea.update();
+        }
     }
 
 

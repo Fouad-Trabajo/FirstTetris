@@ -2,7 +2,7 @@ package com.tetris.domain.models;
 
 import java.awt.*;
 
-public class PieceL1 extends Piece {
+public class PieceL1 extends Piece  {
 
     public PieceL1() {
         create(Color.orange);
@@ -13,80 +13,82 @@ public class PieceL1 extends Piece {
         //  0
         //  0
         //  0  0
-        b[0].x = x;
-        b[0].y = y;
-        b[1].x = b[0].x;
-        b[1].y = b[0].y - Block.SIZE;
-        b[2].x = b[0].x;
-        b[2].y = b[0].y + Block.SIZE;
-        b[3].x = b[0].x + Block.SIZE;
-        b[3].y = b[0].y + Block.SIZE;
+        block[0].x = x;
+        block[0].y = y;
+        block[1].x = block[0].x;
+        block[1].y = block[0].y - Block.SIZE;
+        block[2].x = block[0].x;
+        block[2].y = block[0].y + Block.SIZE;
+        block[3].x = block[0].x + Block.SIZE;
+        block[3].y = block[0].y + Block.SIZE;
     }
 
+
+    @Override
     public void getDirection1() {
         //  0
         //  0
         //  0  0
 
-        tempB[0].x = b[0].x;
-        tempB[0].y = b[0].y;
-        tempB[1].x = b[0].x;
-        tempB[1].y = b[0].y - Block.SIZE;
-        tempB[2].x = b[0].x;
-        tempB[2].y = b[0].y + Block.SIZE;
-        tempB[3].x = b[0].x + Block.SIZE;
-        tempB[3].y = b[0].y + Block.SIZE;
+        blockTemporal[0].x = block[0].x;
+        blockTemporal[0].y = block[0].y;
+        blockTemporal[1].x = block[0].x;
+        blockTemporal[1].y = block[0].y - Block.SIZE;
+        blockTemporal[2].x = block[0].x;
+        blockTemporal[2].y = block[0].y + Block.SIZE;
+        blockTemporal[3].x = block[0].x + Block.SIZE;
+        blockTemporal[3].y = block[0].y + Block.SIZE;
 
         updateXY(1);
     }
-
+    @Override
     public void getDirection2() {
         //
         //  0  0  0
         //  0
 
-        tempB[0].x = b[0].x;
-        tempB[0].y = b[0].y;
-        tempB[1].x = b[0].x + Block.SIZE;
-        tempB[1].y = b[0].y;
-        tempB[2].x = b[0].x - Block.SIZE;
-        tempB[2].y = b[0].y;
-        tempB[3].x = b[0].x - Block.SIZE;
-        tempB[3].y = b[0].y + Block.SIZE;
+        blockTemporal[0].x = block[0].x;
+        blockTemporal[0].y = block[0].y;
+        blockTemporal[1].x = block[0].x + Block.SIZE;
+        blockTemporal[1].y = block[0].y;
+        blockTemporal[2].x = block[0].x - Block.SIZE;
+        blockTemporal[2].y = block[0].y;
+        blockTemporal[3].x = block[0].x - Block.SIZE;
+        blockTemporal[3].y = block[0].y + Block.SIZE;
 
         updateXY(2);
     }
-
+    @Override
     public void getDirection3() {
         //  0  0
         //     0
         //     0
 
-        tempB[0].x = b[0].x;
-        tempB[0].y = b[0].y;
-        tempB[1].x = b[0].x;
-        tempB[1].y = b[0].y + Block.SIZE;
-        tempB[2].x = b[0].x;
-        tempB[2].y = b[0].y - Block.SIZE;
-        tempB[3].x = b[0].x - Block.SIZE;
-        tempB[3].y = b[0].y - Block.SIZE;
+        blockTemporal[0].x = block[0].x;
+        blockTemporal[0].y = block[0].y;
+        blockTemporal[1].x = block[0].x;
+        blockTemporal[1].y = block[0].y + Block.SIZE;
+        blockTemporal[2].x = block[0].x;
+        blockTemporal[2].y = block[0].y - Block.SIZE;
+        blockTemporal[3].x = block[0].x - Block.SIZE;
+        blockTemporal[3].y = block[0].y - Block.SIZE;
 
         updateXY(3);
     }
-
+    @Override
     public void getDirection4() {
         //       0
         // 0  0  0
         //
 
-        tempB[0].x = b[0].x;
-        tempB[0].y = b[0].y;
-        tempB[1].x = b[0].x - Block.SIZE;
-        tempB[1].y = b[0].y;
-        tempB[2].x = b[0].x + Block.SIZE;
-        tempB[2].y = b[0].y;
-        tempB[3].x = b[0].x + Block.SIZE;
-        tempB[3].y = b[0].y - Block.SIZE;
+        blockTemporal[0].x = block[0].x;
+        blockTemporal[0].y = block[0].y;
+        blockTemporal[1].x = block[0].x - Block.SIZE;
+        blockTemporal[1].y = block[0].y;
+        blockTemporal[2].x = block[0].x + Block.SIZE;
+        blockTemporal[2].y = block[0].y;
+        blockTemporal[3].x = block[0].x + Block.SIZE;
+        blockTemporal[3].y = block[0].y - Block.SIZE;
 
         updateXY(4);
     }

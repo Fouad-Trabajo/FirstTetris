@@ -5,23 +5,24 @@ import com.tetris.presentation.PlayArea;
 
 import java.awt.*;
 
-public class Piece {
+public abstract class Piece {
 
-    public Block[] b = new Block[4];
-    public Block[] tempB = new Block[4];
+    public Block[] block = new Block[4];
+    public Block[] blockTemporal = new Block[4];
     int autoDropCounter = 0;
     public int direction = 1; // There are 4 directions
+    boolean active, leftCollision, rightCollision, bottomCollision; //inicialized with true
 
 
     public void create(Color c) {
-        b[0] = new Block(c);
-        b[1] = new Block(c);
-        b[2] = new Block(c);
-        b[3] = new Block(c);
-        tempB[0] = new Block(c);
-        tempB[1] = new Block(c);
-        tempB[2] = new Block(c);
-        tempB[3] = new Block(c);
+        block[0] = new Block(c);
+        block[1] = new Block(c);
+        block[2] = new Block(c);
+        block[3] = new Block(c);
+        blockTemporal[0] = new Block(c);
+        blockTemporal[1] = new Block(c);
+        blockTemporal[2] = new Block(c);
+        blockTemporal[3] = new Block(c);
     }
 
 
@@ -29,34 +30,74 @@ public class Piece {
 
     }
 
+
     public void updateXY(int direction) {
 
-        this.direction = direction;
-        b[0].x = tempB[0].x;
-        b[0].y = tempB[0].y;
-        b[1].x = tempB[1].x;
-        b[1].y = tempB[1].y;
-        b[2].x = tempB[2].x;
-        b[2].y = tempB[2].y;
-        b[3].x = tempB[3].x;
-        b[3].y = tempB[3].y;
+        rotationCollision();
+
+        if (!leftCollision && !rightCollision && !bottomCollision) {
+            this.direction = direction;
+            block[0].x = blockTemporal[0].x;
+            block[0].y = blockTemporal[0].y;
+            block[1].x = blockTemporal[1].x;
+            block[1].y = blockTemporal[1].y;
+            block[2].x = blockTemporal[2].x;
+            block[2].y = blockTemporal[2].y;
+            block[3].x = blockTemporal[3].x;
+            block[3].y = blockTemporal[3].y;
+        }
 
     }
 
-    public void getDirection1() {
+    // Métodos abstractos que implementarán las subclases
+    public abstract void getDirection1();
 
+
+    public abstract void getDirection2();
+
+
+    public abstract void getDirection3();
+
+
+    public abstract void getDirection4();
+
+    public void movementCollision() {
+        leftCollision = false;
+        rightCollision = false;
+        bottomCollision = false;
+
+
+        for (Block b : block) {
+            //right collision
+            if (b.x == PlayArea.left) {
+                leftCollision = true;
+            }
+            //left collision
+            if (b.x + Block.SIZE == PlayArea.right) {
+                rightCollision = true;
+            }
+            //bottom collision
+            if (b.y + Block.SIZE == PlayArea.bottom) {
+                bottomCollision = true;
+            }
+        }
     }
 
-    public void getDirection2() {
-
-    }
-
-    public void getDirection3() {
-
-    }
-
-    public void getDirection4() {
-
+    public void rotationCollision() {
+        for (Block b : blockTemporal) {
+            //right collision
+            if (b.x < PlayArea.left) {
+                leftCollision = true;
+            }
+            //left collision
+            if (b.x + Block.SIZE > PlayArea.right) {
+                rightCollision = true;
+            }
+            //bottom collision
+            if (b.y + Block.SIZE > PlayArea.bottom) {
+                bottomCollision = true;
+            }
+        }
     }
 
     public void update() {
@@ -78,12 +119,14 @@ public class Piece {
             }
             MovePieceKeyboardUseCase.upPressed = false;
         }
+        movementCollision();
         if (MovePieceKeyboardUseCase.downPressed) {
-
-            b[0].y += Block.SIZE;
-            b[1].y += Block.SIZE;
-            b[2].y += Block.SIZE;
-            b[3].y += Block.SIZE;
+            if (!bottomCollision) {
+                block[0].y += Block.SIZE;
+                block[1].y += Block.SIZE;
+                block[2].y += Block.SIZE;
+                block[3].y += Block.SIZE;
+            }
 
             // When the piece move down, reset the autoDropCounter
             autoDropCounter = 0;
@@ -92,34 +135,42 @@ public class Piece {
 
         }
         if (MovePieceKeyboardUseCase.leftPressed) {
-            b[0].x -= Block.SIZE;
-            b[1].x -= Block.SIZE;
-            b[2].x -= Block.SIZE;
-            b[3].x -= Block.SIZE;
+            if (!leftCollision) {
+                block[0].x -= Block.SIZE;
+                block[1].x -= Block.SIZE;
+                block[2].x -= Block.SIZE;
+                block[3].x -= Block.SIZE;
+            }
 
             MovePieceKeyboardUseCase.leftPressed = false;
 
         }
         if (MovePieceKeyboardUseCase.rightPressed) {
-            b[0].x += Block.SIZE;
-            b[1].x += Block.SIZE;
-            b[2].x += Block.SIZE;
-            b[3].x += Block.SIZE;
+            if (!rightCollision) {
+                block[0].x += Block.SIZE;
+                block[1].x += Block.SIZE;
+                block[2].x += Block.SIZE;
+                block[3].x += Block.SIZE;
+            }
 
 
             MovePieceKeyboardUseCase.rightPressed = false;
 
         }
 
-        autoDropCounter++; // The counter increases in every frame
+        if(bottomCollision){
+            active = false;
+        }else {
+            autoDropCounter++; // The counter increases in every frame
 
-        if (autoDropCounter == PlayArea.dropInterval) {
-            // The piece goes down
-            b[0].y += Block.SIZE;
-            b[1].y += Block.SIZE;
-            b[2].y += Block.SIZE;
-            b[3].y += Block.SIZE;
-            autoDropCounter = 0;
+            if (autoDropCounter == PlayArea.dropInterval) {
+                // The piece goes down
+                block[0].y += Block.SIZE;
+                block[1].y += Block.SIZE;
+                block[2].y += Block.SIZE;
+                block[3].y += Block.SIZE;
+                autoDropCounter = 0;
+            }
         }
     }
 
@@ -127,10 +178,10 @@ public class Piece {
     public void draw(Graphics2D g2) {
 
         int margin = 2;
-        g2.setColor(b[0].c);
-        g2.fillRect(b[0].x, b[0].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
-        g2.fillRect(b[1].x, b[1].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
-        g2.fillRect(b[2].x, b[2].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
-        g2.fillRect(b[3].x, b[3].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
+        g2.setColor(block[0].c);
+        g2.fillRect(block[0].x, block[0].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
+        g2.fillRect(block[1].x, block[1].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
+        g2.fillRect(block[2].x, block[2].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
+        g2.fillRect(block[3].x, block[3].y, Block.SIZE - (margin * 2), Block.SIZE - (margin * 2));
     }
 }

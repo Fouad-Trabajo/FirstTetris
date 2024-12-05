@@ -1,5 +1,6 @@
 package com.tetris.presentation;
 
+import com.tetris.domain.MovePieceKeyboardUseCase;
 import com.tetris.domain.models.*;
 
 import java.awt.*;
@@ -29,7 +30,8 @@ public class PlayArea {
         PIECE_START_Y = top + Block.SIZE;
 
         // Set the starting Piece
-        currentPiece = new PieceL1();
+        //currentPiece = new PieceLine();
+        currentPiece= selectRandomPiece();
         currentPiece.setXY(PIECE_START_X, PIECE_START_Y);
     }
 
@@ -41,7 +43,7 @@ public class PlayArea {
 
         switch (i) {
             case 0:
-                piece = new PieceL1();
+                piece = new PieceL1(); //Compatibilidad de tipos:
                 break;
             case 1:
                 piece = new PieceL2();
@@ -87,6 +89,15 @@ public class PlayArea {
         // Draw the currentPiece
         if (currentPiece != null) {
             currentPiece.draw(g2);
+        }
+
+        //Draw pause
+        g2.setColor(Color.MAGENTA);
+        g2.setFont(g2.getFont().deriveFont(50f));
+        if(MovePieceKeyboardUseCase.pausePressed){
+            x = left + 15;
+            y = top +300;
+            g2.drawString("GAME PAUSE", x, y);
         }
     }
 }

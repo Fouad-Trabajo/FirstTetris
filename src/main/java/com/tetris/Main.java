@@ -9,6 +9,7 @@ public class Main {
 
         JFrame window = new JFrame("Simple Tetris ^_^");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Esto sirve para cuando se cierra la ventana, se para la ejecución
         window.setResizable(false);
         window.setVisible(true);
 
