@@ -29,9 +29,9 @@ public class PieceZ1 extends Piece{
         // 0
         blockTemporal[0].x = block[0].x;
         blockTemporal[0].y = block[0].y;
-        blockTemporal[1].x = block[0].x - Block.SIZE;
+        blockTemporal[1].x = block[0].x;
         blockTemporal[1].y = block[0].y - Block.SIZE;
-        blockTemporal[2].x = block[0].x;
+        blockTemporal[2].x = block[0].x - Block.SIZE;
         blockTemporal[2].y = block[0].y;
         blockTemporal[3].x = block[0].x - Block.SIZE;
         blockTemporal[3].y = block[0].y + Block.SIZE;

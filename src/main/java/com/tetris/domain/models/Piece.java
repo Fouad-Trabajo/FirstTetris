@@ -11,7 +11,8 @@ public abstract class Piece {
     public Block[] blockTemporal = new Block[4];
     int autoDropCounter = 0;
     public int direction = 1; // There are 4 directions
-    boolean active, leftCollision, rightCollision, bottomCollision; //inicialized with true
+    public boolean active,deactivating, leftCollision, rightCollision, bottomCollision; //inicialized with true
+    int deactivatingCounter = 0;
 
 
     public void create(Color c) {
@@ -66,7 +67,7 @@ public abstract class Piece {
         rightCollision = false;
         bottomCollision = false;
 
-
+        staticBlocksCollision();
         for (Block b : block) {
             //right collision
             if (b.x == PlayArea.left) {
@@ -84,6 +85,7 @@ public abstract class Piece {
     }
 
     public void rotationCollision() {
+        staticBlocksCollision();
         for (Block b : blockTemporal) {
             //right collision
             if (b.x < PlayArea.left) {
@@ -100,7 +102,39 @@ public abstract class Piece {
         }
     }
 
+    private void staticBlocksCollision() {
+        for (int i = 0; i < PlayArea.blocks.size(); i++) {
+            int targetX = PlayArea.blocks.get(i).x;
+            int targetY = PlayArea.blocks.get(i).y;
+
+            //down collision
+            for (Block block : block) {
+                if (block.y + Block.SIZE == targetY && block.x == targetX) {
+                    bottomCollision = true;
+                }
+            }
+
+            //left collision
+            for (Block block : block) {
+                if (block.x - Block.SIZE == targetX && block.y == targetY) {
+                    leftCollision = true;
+                }
+            }
+
+            //right collision
+            for (Block block : block) {
+                if (block.x + Block.SIZE == targetX && block.y == targetY) {
+                    rightCollision = true;
+                }
+            }
+        }
+    }
+
     public void update() {
+
+        if (deactivating){
+            deactivating();
+    }
         // Move the piece with keyboard
         if (MovePieceKeyboardUseCase.upPressed) { // Rotation
             switch (direction) {
@@ -158,9 +192,9 @@ public abstract class Piece {
 
         }
 
-        if(bottomCollision){
-            active = false;
-        }else {
+        if (bottomCollision) {
+            deactivating = true;
+        } else {
             autoDropCounter++; // The counter increases in every frame
 
             if (autoDropCounter == PlayArea.dropInterval) {
@@ -170,6 +204,21 @@ public abstract class Piece {
                 block[2].y += Block.SIZE;
                 block[3].y += Block.SIZE;
                 autoDropCounter = 0;
+            }
+        }
+    }
+
+    private void deactivating(){
+        deactivatingCounter++;
+        //wait 60 frames until deactivate
+        if (deactivatingCounter == 60){
+
+            deactivatingCounter = 0;
+            staticBlocksCollision(); //check if the bottom is still hitting
+
+            //if is hitting, deactivate the piece
+            if(bottomCollision){
+                active = false;
             }
         }
     }
