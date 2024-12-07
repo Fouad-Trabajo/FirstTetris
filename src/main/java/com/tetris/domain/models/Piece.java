@@ -5,13 +5,15 @@ import com.tetris.presentation.PlayArea;
 
 import java.awt.*;
 
+import static com.tetris.presentation.PlayArea.blocks;
+
 public abstract class Piece {
 
     public Block[] block = new Block[4];
     public Block[] blockTemporal = new Block[4];
     int autoDropCounter = 0;
     public int direction = 1; // There are 4 directions
-    public boolean active,deactivating, leftCollision, rightCollision, bottomCollision; //inicialized with true
+    public boolean active,deactivating, leftCollision, rightCollision, bottomCollision; //initialize with true
     int deactivatingCounter = 0;
 
 
@@ -103,27 +105,27 @@ public abstract class Piece {
     }
 
     private void staticBlocksCollision() {
-        for (int i = 0; i < PlayArea.blocks.size(); i++) {
-            int targetX = PlayArea.blocks.get(i).x;
-            int targetY = PlayArea.blocks.get(i).y;
+        for (Block block1 : blocks) {
+            int targetX = block1.x;
+            int targetY = block1.y;
 
             //down collision
-            for (Block block : block) {
-                if (block.y + Block.SIZE == targetY && block.x == targetX) {
+            for (Block block2 : block) {
+                if (block2.y + Block.SIZE == targetY && block2.x == targetX) {
                     bottomCollision = true;
                 }
             }
 
             //left collision
-            for (Block block : block) {
-                if (block.x - Block.SIZE == targetX && block.y == targetY) {
+            for (Block block3 : block) {
+                if (block3.x - Block.SIZE == targetX && block3.y == targetY) {
                     leftCollision = true;
                 }
             }
 
             //right collision
-            for (Block block : block) {
-                if (block.x + Block.SIZE == targetX && block.y == targetY) {
+            for (Block block3 : block) {
+                if (block3.x + Block.SIZE == targetX && block3.y == targetY) {
                     rightCollision = true;
                 }
             }
@@ -211,12 +213,12 @@ public abstract class Piece {
     private void deactivating(){
         deactivatingCounter++;
         //wait 60 frames until deactivate
-        if (deactivatingCounter == 60){
+        if (deactivatingCounter == 30){
 
             deactivatingCounter = 0;
             staticBlocksCollision(); //check if the bottom is still hitting
 
-            //if is hitting, deactivate the piece
+            //if hitting, deactivate the piece
             if(bottomCollision){
                 active = false;
             }
