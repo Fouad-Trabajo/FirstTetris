@@ -17,9 +17,9 @@ public class PieceZ2 extends  Piece{
         block[0].y = y;
         block[1].x = block[0].x;
         block[1].y = block[0].y - Block.SIZE;
-        block[2].x = block[0].x - Block.SIZE;
+        block[2].x = block[0].x + Block.SIZE;
         block[2].y = block[0].y;
-        block[3].x = block[0].x - Block.SIZE;
+        block[3].x = block[0].x + Block.SIZE;
         block[3].y = block[0].y + Block.SIZE;
     }
 

@@ -5,13 +5,16 @@ import com.tetris.presentation.PlayArea;
 
 import java.awt.*;
 
+import static com.tetris.presentation.PlayArea.blocks;
+
 public abstract class Piece {
 
     public Block[] block = new Block[4];
     public Block[] blockTemporal = new Block[4];
     int autoDropCounter = 0;
     public int direction = 1; // There are 4 directions
-    boolean active, leftCollision, rightCollision, bottomCollision; //inicialized with true
+    public boolean active,deactivating, leftCollision, rightCollision, bottomCollision; //initialize with true
+    int deactivatingCounter = 0;
 
 
     public void create(Color c) {
@@ -66,7 +69,7 @@ public abstract class Piece {
         rightCollision = false;
         bottomCollision = false;
 
-
+        staticBlocksCollision();
         for (Block b : block) {
             //right collision
             if (b.x == PlayArea.left) {
@@ -84,6 +87,7 @@ public abstract class Piece {
     }
 
     public void rotationCollision() {
+        staticBlocksCollision();
         for (Block b : blockTemporal) {
             //right collision
             if (b.x < PlayArea.left) {
@@ -100,7 +104,39 @@ public abstract class Piece {
         }
     }
 
+    private void staticBlocksCollision() {
+        for (Block block1 : blocks) {
+            int targetX = block1.x;
+            int targetY = block1.y;
+
+            //down collision
+            for (Block block2 : block) {
+                if (block2.y + Block.SIZE == targetY && block2.x == targetX) {
+                    bottomCollision = true;
+                }
+            }
+
+            //left collision
+            for (Block block3 : block) {
+                if (block3.x - Block.SIZE == targetX && block3.y == targetY) {
+                    leftCollision = true;
+                }
+            }
+
+            //right collision
+            for (Block block3 : block) {
+                if (block3.x + Block.SIZE == targetX && block3.y == targetY) {
+                    rightCollision = true;
+                }
+            }
+        }
+    }
+
     public void update() {
+
+        if (deactivating){
+            deactivating();
+    }
         // Move the piece with keyboard
         if (MovePieceKeyboardUseCase.upPressed) { // Rotation
             switch (direction) {
@@ -158,9 +194,9 @@ public abstract class Piece {
 
         }
 
-        if(bottomCollision){
-            active = false;
-        }else {
+        if (bottomCollision) {
+            deactivating = true;
+        } else {
             autoDropCounter++; // The counter increases in every frame
 
             if (autoDropCounter == PlayArea.dropInterval) {
@@ -170,6 +206,21 @@ public abstract class Piece {
                 block[2].y += Block.SIZE;
                 block[3].y += Block.SIZE;
                 autoDropCounter = 0;
+            }
+        }
+    }
+
+    private void deactivating(){
+        deactivatingCounter++;
+        //wait 60 frames until deactivate
+        if (deactivatingCounter == 30){
+
+            deactivatingCounter = 0;
+            staticBlocksCollision(); //check if the bottom is still hitting
+
+            //if hitting, deactivate the piece
+            if(bottomCollision){
+                active = false;
             }
         }
     }
