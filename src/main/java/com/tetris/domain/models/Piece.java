@@ -1,6 +1,7 @@
 package com.tetris.domain.models;
 
 import com.tetris.domain.MovePieceKeyboardUseCase;
+import com.tetris.presentation.GamePanel;
 import com.tetris.presentation.PlayArea;
 
 import java.awt.*;
@@ -154,6 +155,7 @@ public abstract class Piece {
                     break;
             }
             MovePieceKeyboardUseCase.upPressed = false;
+            GamePanel.se.play("/raw/rotation.mp3");
         }
         movementCollision();
         if (MovePieceKeyboardUseCase.downPressed) {
@@ -195,6 +197,9 @@ public abstract class Piece {
         }
 
         if (bottomCollision) {
+            if(!deactivating){
+               GamePanel.se.play("/raw/touch_bottom.mp3");
+            }
             deactivating = true;
         } else {
             autoDropCounter++; // The counter increases in every frame
