@@ -2,7 +2,7 @@ package com.tetris.domain.models;
 
 import java.awt.*;
 
-public class PieceL1 extends Piece  {
+public class PieceL1 extends Piece {
 
     public PieceL1() {
         create(Color.orange);

@@ -75,8 +75,8 @@ public class PlayArea {
             if (currentPiece.block[0].x == PIECE_START_X && currentPiece.block[0].y == PIECE_START_Y) {
                 gameOver = true;
                 MovePieceKeyboardUseCase.pausePressed = true;
-                GamePanel.se.play("/raw/game_over.mp3");
-                GamePanel.music.stop();
+                GamePanel.soundEffect.play("/raw/game_over.mp3");
+                GamePanel.backgroundSound.stop();
             }
 
             currentPiece.deactivating = false;
@@ -127,7 +127,7 @@ public class PlayArea {
         }
 
         if (lineCount > 0) {
-            GamePanel.se.play("/raw/delete_line.mp3");
+            GamePanel.soundEffect.play("/raw/delete_line.mp3");
             int singleLineScore = 10 * level;
             score += singleLineScore * lineCount;
         }

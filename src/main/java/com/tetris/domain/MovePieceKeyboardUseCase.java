@@ -10,11 +10,6 @@ public class MovePieceKeyboardUseCase implements KeyListener {
     public static boolean upPressed, downPressed, leftPressed, rightPressed, pausePressed; // Initialize with false
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
     public void keyPressed(KeyEvent e) {
 
         int code = e.getKeyCode();
@@ -30,16 +25,18 @@ public class MovePieceKeyboardUseCase implements KeyListener {
         } else if (code == KeyEvent.VK_SPACE) {
             pausePressed = !pausePressed;
             if (pausePressed) {
-                GamePanel.music.stop();
+                GamePanel.backgroundSound.stop();
             } else {
-                GamePanel.music.loop();
+                GamePanel.backgroundSound.loop();
             }
         }
+    }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }

@@ -7,8 +7,6 @@ import javazoom.jl.player.Player;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.tetris.domain.MovePieceKeyboardUseCase.pausePressed;
-
 public class Sound {
     Player player;
 
@@ -22,15 +20,12 @@ public class Sound {
             System.out.println("Error al reproducir sonido: " + e.getMessage());
         }
     }
-    //We need use thread because, the sound interfer in the game play
     public void play(String path) {
-        // Play the sound effect one time
          new Thread(()->{
             getResource(path);
         }).start();
     }
 
-    // repeat the background sound
     public void loop() {
         new Thread(()->{
             while (!MovePieceKeyboardUseCase.pausePressed) {

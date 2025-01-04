@@ -2,9 +2,9 @@ package com.tetris.domain.models;
 
 import java.awt.*;
 
-public class PieceZ2 extends  Piece{
+public class PieceZ2 extends Piece {
 
-    public PieceZ2(){
+    public PieceZ2() {
         create(Color.GREEN);
     }
 
