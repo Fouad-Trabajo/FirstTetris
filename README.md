@@ -12,7 +12,7 @@ A continuación, te dejo un video que muestra cómo funciona el juego y sus cara
 ## Características ✨
 
 - **Juego de Tetris** completamente funcional.
-- **Música de fondo**(de no copyright sound) y **efectos de sonido** (rotación de pieza, colisión con el fondo, game over y eliminación de
+- **Música de fondo** (de no copyright sound) y **efectos de sonido** (rotación de pieza, colisión con el fondo, game over y eliminación de
   línea).
 - Efectos de sonido creados con [**BeepBox**](https://goo.su/ZcTU5).
 - Implementación de **JLayer** para reproducción de audio MP3.
