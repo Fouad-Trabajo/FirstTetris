@@ -4,6 +4,8 @@ Welcome to the personal Tetris project! A classic puzzle game where the pieces f
 correctly to clear lines. In this project, I’ve worked on several improvements, including adding background music, sound
 effects, and optimizations for gameplay.
 
+**[README id spanish](README.md)**
+
 ## Video 🎥
 
 Below is a video that shows how the game works and its features:

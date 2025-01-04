@@ -4,6 +4,8 @@
 el objetivo es alinearlas correctamente para eliminar líneas. En este proyecto, he trabajado en varias mejoras,
 incluyendo la adición de música de fondo y efectos de sonido, además de optimizaciones para la jugabilidad.
 
+*[README en inglés](README_EN.md)*
+
 ## Video 🎥
 
 A continuación, te dejo un video que muestra cómo funciona el juego y sus características:
@@ -33,7 +35,6 @@ IntelliJ IDEA, Android Studio o Eclipse).
 
 ```bash
 git clone https://github.com/Fouad-Trabajo/FirstTetris.git
-
 ```
 
 ## 🔒 Licencia
