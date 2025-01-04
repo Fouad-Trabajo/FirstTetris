@@ -29,7 +29,7 @@ public class PlayArea {
 
     public PlayArea() {
         // Main Play Area Frame
-        left = (GamePanel.WIDTH / 2) - (WIDTH / 2); // 1280/2 - 360/2 = 460
+        left = (GamePanel.WIDTH / 2) - (WIDTH / 2); // 1000/2 - 360/2 = 320
         right = left + WIDTH;
         top = 50;
         bottom = top + HEIGHT;
@@ -75,7 +75,8 @@ public class PlayArea {
             if (currentPiece.block[0].x == PIECE_START_X && currentPiece.block[0].y == PIECE_START_Y) {
                 gameOver = true;
                 MovePieceKeyboardUseCase.pausePressed = true;
-
+                GamePanel.soundEffect.play("/raw/game_over.mp3");
+                GamePanel.backgroundSound.stop();
             }
 
             currentPiece.deactivating = false;
@@ -86,7 +87,7 @@ public class PlayArea {
             nextPiece = selectRandomPiece();
             nextPiece.setXY(NEXT_PIECE_X, NEXT_PIECE_Y);
 
-            deleteLine(); //when piece is deactived, check if line can delete
+            deleteLine(); //when piece is deactivated, check if line can delete
         } else {
             currentPiece.update();
         }
@@ -113,14 +114,8 @@ public class PlayArea {
                 lineCount++;
                 lines++;
                 //drop speed
-                if (lines % 10 == 0 && dropInterval > 1) {
-                    level++;
-                    if (dropInterval > 2) {
-                        dropInterval -= 10;
-                    } else {
-                        dropInterval -= 1;
-                    }
-                }
+                level++;
+                dropInterval = Math.max(25, dropInterval - 10);
                 //move down one line
                 for (Block block : blocks) {
                     if (block.y < y) {
@@ -132,6 +127,7 @@ public class PlayArea {
         }
 
         if (lineCount > 0) {
+            GamePanel.soundEffect.play("/raw/delete_line.mp3");
             int singleLineScore = 10 * level;
             score += singleLineScore * lineCount;
         }
@@ -142,7 +138,7 @@ public class PlayArea {
         // Draw Play Area Frame
         g2.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(4f));
-        g2.drawRect(left - 4, top - 4, WIDTH + 8, HEIGHT);
+        g2.drawRect(left - 2, top - 2, WIDTH, HEIGHT);
 
         // Draw Next Piece Frame
         int x = right + 100;
@@ -152,17 +148,16 @@ public class PlayArea {
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("Next piece", x, y + 180);
-        g2.drawString("Score", x, y - 180);
+
         g2.drawString("Space (Pause)", x - 750, y - 150);
 
         //draw the score
-        g2.drawRect(x - 20, y - 170, 190, 180);
+        g2.drawRect(x - 20, y - 170, 260, 280);
+        g2.drawString("Scores", x, y - 180);
         g2.drawString("LEVEL: " + level, x, y - 130);
-        y += 50;
-        g2.drawString("LINES: " + lines, x, y - 125);
-        y += 50;
-        g2.drawString("SCORE: " + score, x, y - 120);
-
+        g2.drawString("LINES: " + lines, x, y - 75);
+        g2.drawString("SCORE: " + score, x, y - 20);
+        g2.drawString("High score: " + score, x, y + 30);
 
         // Draw the currentPiece
         if (currentPiece != null) {
@@ -194,15 +189,16 @@ public class PlayArea {
         }
 
 
-        //Draw pause, game over
+        //Draw pause and game over
         g2.setColor(Color.pink);
         g2.setFont(g2.getFont().deriveFont(50f));
         x = left + 15;
         y = top + 300;
         if (gameOver) {
-            g2.drawString("GAME OVER", x, y);
+            g2.drawString("GAME OVER", x - left, y);
+            MovePieceKeyboardUseCase.pausePressed = true; //detener el juego
         } else if (MovePieceKeyboardUseCase.pausePressed) {
-            g2.drawString("GAME PAUSE", x, y);
+            g2.drawString("GAME PAUSE", x - left, y);
         }
     }
 }

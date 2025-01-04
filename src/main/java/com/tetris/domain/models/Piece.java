@@ -1,19 +1,21 @@
 package com.tetris.domain.models;
 
 import com.tetris.domain.MovePieceKeyboardUseCase;
+import com.tetris.domain.PieceRepository;
+import com.tetris.presentation.GamePanel;
 import com.tetris.presentation.PlayArea;
 
 import java.awt.*;
 
 import static com.tetris.presentation.PlayArea.blocks;
 
-public abstract class Piece {
+public abstract class Piece implements PieceRepository {
 
     public Block[] block = new Block[4];
     public Block[] blockTemporal = new Block[4];
     int autoDropCounter = 0;
     public int direction = 1; // There are 4 directions
-    public boolean active,deactivating, leftCollision, rightCollision, bottomCollision; //initialize with true
+    public boolean active, deactivating, leftCollision, rightCollision, bottomCollision; //initialize with true
     int deactivatingCounter = 0;
 
 
@@ -53,16 +55,16 @@ public abstract class Piece {
     }
 
     // Métodos abstractos que implementarán las subclases
-    public abstract void getDirection1();
+    //public abstract void getDirection1();
 
 
-    public abstract void getDirection2();
+    //public abstract void getDirection2();
 
 
-    public abstract void getDirection3();
+//    public abstract void getDirection3();
 
 
-    public abstract void getDirection4();
+    //  public abstract void getDirection4();
 
     public void movementCollision() {
         leftCollision = false;
@@ -134,9 +136,9 @@ public abstract class Piece {
 
     public void update() {
 
-        if (deactivating){
+        if (deactivating) {
             deactivating();
-    }
+        }
         // Move the piece with keyboard
         if (MovePieceKeyboardUseCase.upPressed) { // Rotation
             switch (direction) {
@@ -154,6 +156,7 @@ public abstract class Piece {
                     break;
             }
             MovePieceKeyboardUseCase.upPressed = false;
+            GamePanel.soundEffect.play("/raw/rotation.mp3");
         }
         movementCollision();
         if (MovePieceKeyboardUseCase.downPressed) {
@@ -195,6 +198,9 @@ public abstract class Piece {
         }
 
         if (bottomCollision) {
+            if (!deactivating) {
+                GamePanel.soundEffect.play("/raw/touch_bottom.mp3");
+            }
             deactivating = true;
         } else {
             autoDropCounter++; // The counter increases in every frame
@@ -210,16 +216,16 @@ public abstract class Piece {
         }
     }
 
-    private void deactivating(){
+    private void deactivating() {
         deactivatingCounter++;
         //wait 60 frames until deactivate
-        if (deactivatingCounter == 30){
+        if (deactivatingCounter == 30) {
 
             deactivatingCounter = 0;
             staticBlocksCollision(); //check if the bottom is still hitting
 
             //if hitting, deactivate the piece
-            if(bottomCollision){
+            if (bottomCollision) {
                 active = false;
             }
         }

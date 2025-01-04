@@ -1,22 +1,22 @@
 package com.tetris.presentation;
 
 import com.tetris.domain.MovePieceKeyboardUseCase;
-import com.tetris.domain.models.Block;
-import com.tetris.domain.models.Piece;
+import com.tetris.domain.models.Sound;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicTreeUI;
-
 import java.awt.*;
 
 
 public class GamePanel extends JPanel implements Runnable {
 
-    public static final int WIDTH = 1000;
+    public static final int WIDTH = 1100;
     public static final int HEIGHT = 650;
     public static final int FPS = 60;
     Thread gameThread; // Hilos...
     PlayArea playArea;
+    public static Sound backgroundSound = new Sound();
+    public static Sound soundEffect = new Sound();
+
 
     // Constructor
     public GamePanel() {
@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.requestFocusInWindow();
         gameThread = new Thread(this);
         gameThread.start();
+        backgroundSound.loop();
     }
 
     @Override
