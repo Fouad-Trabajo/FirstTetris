@@ -37,6 +37,6 @@ IntelliJ IDEA, Android Studio o Eclipse).
 git clone https://github.com/Fouad-Trabajo/FirstTetris.git
 ```
 
-## 🔒 Licencia
+## Licencia 🔒
 
 Este proyecto es privado y está sujeto a derechos de uso restringidos.
