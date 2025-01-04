@@ -37,6 +37,6 @@ Studio, or Eclipse).
 git clone https://github.com/Fouad-Trabajo/FirstTetris.git
 ```
 
-## 🔒 License
+## License 🔒
 
 This project is private and subject to restricted usage rights.
