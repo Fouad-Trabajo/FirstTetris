@@ -4,19 +4,19 @@
 el objetivo es alinearlas correctamente para eliminar líneas. En este proyecto, he trabajado en varias mejoras,
 incluyendo la adición de música de fondo y efectos de sonido, además de optimizaciones para la jugabilidad.
 
+*[README en inglés](README_EN.md)*
+
 ## Video 🎥
 
 A continuación, te dejo un video que muestra cómo funciona el juego y sus características:
-
-[Inserta el enlace del video aquí o usa un código de incrustación si lo subes a plataformas como YouTube]
-[Simple Tetris ^_^ 2025-01-04 01-11-11.mp4](..%2F..%2FDownloads%2FSimple%20Tetris%20%5E_%5E%202025-01-04%2001-11-11.mp4)
+![Simple Tetris ^_^ 2025-01-04 01-11-11](https://github.com/user-attachments/assets/a27f310f-dd96-4631-89bb-62139fa81927)
 
 ## Características ✨
 
 - **Juego de Tetris** completamente funcional.
-- **Música de fondo** y **efectos de sonido** (rotación de pieza, colisión con el fondo, game over y eliminación de
+- **Música de fondo** (de no copyright sound) y **efectos de sonido** (rotación de pieza, colisión con el fondo, game over y eliminación de
   línea).
-- Efectos de sonido creados con **BeepBox**.
+- Efectos de sonido creados con [**BeepBox**](https://goo.su/ZcTU5).
 - Implementación de **JLayer** para reproducción de audio MP3.
 - Optimización del rendimiento usando hilos para ejecutar los efectos de sonido de forma **asíncrona**, evitando que
   interrumpan las animaciones.
@@ -35,3 +35,8 @@ IntelliJ IDEA, Android Studio o Eclipse).
 
 ```bash
 git clone https://github.com/Fouad-Trabajo/FirstTetris.git
+```
+
+## Licencia 🔒
+
+Este proyecto es privado y está sujeto a derechos de uso restringidos.
